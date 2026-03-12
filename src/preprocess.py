@@ -76,6 +76,8 @@ def preprocess_data(df):
 
     df["PRICE"] = df["PRICE"].apply(clean_price)
 
+    df = df.dropna(subset=['PRICE'])
+
     df["LAND_AREA"] = df["LAND AREA"].apply(convert_to_sqft)
 
     df["ROAD_ACCESS"] = df["ROAD ACCESS"].apply(process_road_access)
