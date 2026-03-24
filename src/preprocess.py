@@ -78,6 +78,12 @@ def preprocess_data(df):
 
     df = df.dropna(subset=['PRICE'])
 
+    top_locations = df["LOCATION"].value_counts().nlargest(20).index
+
+    df["LOCATION"] = df["LOCATION"].apply(
+        lambda x: x if x in top_locations else "Other"
+    )
+
     df["LAND_AREA"] = df["LAND AREA"].apply(convert_to_sqft)
 
     df["ROAD_ACCESS"] = df["ROAD ACCESS"].apply(process_road_access)
@@ -108,5 +114,18 @@ def preprocess_data(df):
     df["BEDROOM"].fillna(df["BEDROOM"].median(), inplace=True)
     df["BATHROOM"].fillna(df["BATHROOM"].median(), inplace=True)
     df["BUILT_YEAR"].fillna(df["BUILT_YEAR"].median(), inplace=True)
+
+    df["bedroom_density"] = np.where(
+        df["LAND_AREA"] > 0,
+        df["BEDROOM"] / df["LAND_AREA"],
+        np.nan
+    )
+    df["bedroom_density"].fillna(df["bedroom_density"].median(), inplace=True)
+    df["bath_per_bed"] = np.where(
+        df["BEDROOM"] > 0,
+        df["BATHROOM"] / df["BEDROOM"],
+        np.nan
+    )
+    df["bath_per_bed"].fillna(df["bath_per_bed"].median(), inplace=True)
 
     return df
