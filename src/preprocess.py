@@ -115,12 +115,6 @@ def preprocess_data(df):
     df["BATHROOM"].fillna(df["BATHROOM"].median(), inplace=True)
     df["BUILT_YEAR"].fillna(df["BUILT_YEAR"].median(), inplace=True)
 
-    df["bedroom_density"] = np.where(
-        df["LAND_AREA"] > 0,
-        df["BEDROOM"] / df["LAND_AREA"],
-        np.nan
-    )
-    df["bedroom_density"].fillna(df["bedroom_density"].median(), inplace=True)
     df["bath_per_bed"] = np.where(
         df["BEDROOM"] > 0,
         df["BATHROOM"] / df["BEDROOM"],
