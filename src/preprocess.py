@@ -3,6 +3,7 @@ import numpy as np
 import re
 import ast
 from itertools import chain
+from bikram_sambat import date
 
 def clean_price(price):
     if pd.isna(price):
@@ -91,6 +92,7 @@ def preprocess_data(df):
     clean_facing(df)
 
     df["BUILT_YEAR"] = df["BUILT YEAR"].str.extract(r"(\d+)").astype(float)
+    
 
     df["AMENITY_COUNT"] = df["AMENITIES"].apply(lambda x: len(ast.literal_eval(x)) if pd.notna(x) else 0)
 
@@ -114,6 +116,9 @@ def preprocess_data(df):
     df["BEDROOM"].fillna(df["BEDROOM"].median(), inplace=True)
     df["BATHROOM"].fillna(df["BATHROOM"].median(), inplace=True)
     df["BUILT_YEAR"].fillna(df["BUILT_YEAR"].median(), inplace=True)
+    current_year = date.today().year
+    df["house_age"] = current_year - df["BUILT_YEAR"]
+    df.drop("BUILT_YEAR",axis=1,inplace=True)
 
     df["bath_per_bed"] = np.where(
         df["BEDROOM"] > 0,
@@ -121,5 +126,7 @@ def preprocess_data(df):
         np.nan
     )
     df["bath_per_bed"].fillna(df["bath_per_bed"].median(), inplace=True)
+    df["area_road_interaction"] = df["LAND_AREA"] * df["ROAD_ACCESS"]
+    df["area_bedroom"] = df["LAND_AREA"] * df["BEDROOM"]
 
     return df
