@@ -118,6 +118,7 @@ def preprocess_data(df):
 
     all_amenities = list(chain.from_iterable(df["AMENITIES"]))
     top_amenities = pd.Series(all_amenities).value_counts().head(10).index.tolist()
+    top_amenities.remove("Bathroom")
 
     for amenity in top_amenities:
         df[f"has_{amenity.lower().replace(' ', '_')}"] = df["AMENITIES"].apply(lambda x: amenity in x)
