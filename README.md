@@ -7,9 +7,9 @@ A machine learning project for predicting house prices in Nepal using various re
 - [Problem Statement](#problem-statement)
 - [Dataset](#dataset)
 - [Features](#features)
+- [Models](#models)
 - [Installation](#installation)
 - [Project Structure](#project-structure)
-- [Models](#models)
 
 <a id ="problem-statement"></a>
 
@@ -29,7 +29,7 @@ Predict house prices based on housing features such as land area, number of bedr
 - Price cleaning and standardization (handling different formats: Rs., lakhs, crores)
 - Land area conversion to square feet (handling various units: aana, kattha, sq.m, etc.)
 - Missing value handling
-- Feature engineering (bedroom density, bath per bed ratio)
+- Feature engineering (bath per bed ratio, area × road access, area x bedroom)
 - Categorical encoding for location and facing direction
   <a id ="features"></a>
 
@@ -41,6 +41,40 @@ Predict house prices based on housing features such as land area, number of bedr
 - Feature importance analysis
 - Model performance evaluation metrics
 - Clean, modular code structure
+
+<a id ="models"></a>
+
+## 🤖 Models
+
+The project compares multiple regression algorithms:
+
+- **Linear Regression** - Baseline model
+- **Lasso Regression** - L1 regularization
+- **Ridge Regression** - L2 regularization
+- **Random Forest Regressor** - Ensemble method
+- **Gradient Boosting Regressor** - Boosting algorithm
+- **AdaBoost Regressor** - Adaptive boosting
+- **XGBoost Regressor** - Extreme gradient boosting
+- **CatBoost Regressor** - Categorical boosting
+
+### Best Model
+
+- Random Forest Regressor
+- Achieved R² ≈ 0.50 on test data
+
+### Key Insights
+
+- Tree-based models significantly outperformed linear models
+- Housing price relationships are nonlinear and interaction-driven
+- Feature engineering had a major impact on performance
+
+### Evaluation Metrics
+
+- R² Score
+- Mean Absolute Error (MAE)
+- Mean Squared Error (MSE)
+- Root Mean Squared Error (RMSE)
+
   <a id ="installation"></a>
 
 ## 🛠 Installation
@@ -82,7 +116,7 @@ house-price-ml/
 ├── README.md
 ├── requirements.txt
 │
-├── app/                          # Streamlit application (future)
+├── app/                          # Streamlit application
 │
 ├── data/
 │   ├── raw/                      # Raw dataset
@@ -90,37 +124,14 @@ house-price-ml/
 │   └── processed/                # Processed/cleaned data
 │       └── clean_housing.csv
 │
-├── model/                        # Saved models (future)
+├── model/                        # Saved trained models
 │
-├── notebooks/                    # Jupyter notebooks
+├── notebooks/
 │   ├── 01_eda.ipynb             # Exploratory Data Analysis
 │   ├── 02_preprocessing.ipynb   # Data preprocessing
 │   ├── 03_model_training.ipynb  # Model training and evaluation
-│   └── catboost_info/           # CatBoost training logs
 │
-└── src/                         # Source code
+└── src/
     ├── preprocess.py            # Data preprocessing functions
     └── __pycache__/
 ```
-
-<a id ="models"></a>
-
-## 🤖 Models
-
-The project compares multiple regression algorithms:
-
-- **Linear Regression** - Baseline model
-- **Lasso Regression** - L1 regularization
-- **Ridge Regression** - L2 regularization
-- **Random Forest Regressor** - Ensemble method
-- **Gradient Boosting Regressor** - Boosting algorithm
-- **AdaBoost Regressor** - Adaptive boosting
-- **XGBoost Regressor** - Extreme gradient boosting
-- **CatBoost Regressor** - Categorical boosting
-
-### Evaluation Metrics
-
-- R² Score
-- Mean Absolute Error (MAE)
-- Mean Squared Error (MSE)
-- Root Mean Squared Error (RMSE)
