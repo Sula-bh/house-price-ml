@@ -12,6 +12,7 @@ st.write("Enter house details to predict price")
 
 
 land_area = st.number_input("Land Area (Aana)", min_value=1.0)
+land_area = land_area * 342.25
 road_access = st.number_input("Road Access (Feet)", min_value=1.0)
 floor = st.number_input("Number of Floors", min_value=1.0)
 bedroom = st.number_input("Bedrooms", min_value=1)
@@ -43,7 +44,6 @@ has_modular_kitchen = st.checkbox("Modular Kitchen")
 if st.button("Predict Price"):
 
     input_data = pd.DataFrame({
-        "LAND_AREA": [land_area],
         "ROAD_ACCESS": [road_access], 
         "FLOOR": [floor],
         "BEDROOM": [bedroom],
