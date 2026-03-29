@@ -71,6 +71,29 @@ def clean_facing(df):
         "west-north": "north-west",
     })
 
+def clean_location(df):
+    df["LOCATION"] = (
+        df["LOCATION"]
+        .astype(str)
+        .str.split(",")
+        .str[-1]
+        .str.strip()
+        .str.title()
+    )
+    df["LOCATION"] = df["LOCATION"].replace({
+        "Karhmandu": "Kathmandu",
+        "Kathmandhu": "Kathmandu",
+        "Kathmndu": "Kathmandu",
+        "Narayanthan": "Kathmandu",
+        "Rumba Chowk": "Kathmandu",
+        "Sitapaila": "Kathmandu",
+        "Sukedhara": "Kathmandu",
+        "Swoyambhu": "Kathmandu",
+        "Imadol": "Lalitpur",
+        "Undefined": "Other",
+        
+    })
+
 
 def preprocess_data(df):
     df.drop("TITLE",axis=1,inplace=True)
@@ -79,11 +102,7 @@ def preprocess_data(df):
 
     df = df.dropna(subset=['PRICE'])
 
-    top_locations = df["LOCATION"].value_counts().nlargest(20).index
-
-    df["LOCATION"] = df["LOCATION"].apply(
-        lambda x: x if x in top_locations else "Other"
-    )
+    clean_location(df)
 
     df["LAND_AREA"] = df["LAND AREA"].apply(convert_to_sqft)
 
@@ -92,7 +111,6 @@ def preprocess_data(df):
     clean_facing(df)
 
     df["BUILT_YEAR"] = df["BUILT YEAR"].str.extract(r"(\d+)").astype(float)
-    
 
     df["AMENITY_COUNT"] = df["AMENITIES"].apply(lambda x: len(ast.literal_eval(x)) if pd.notna(x) else 0)
 
