@@ -32,15 +32,15 @@ def convert_to_sqft(land_area):
         return np.nan
     value = float(match.group(1))
     if 'kattha' in land_area:
-        return value * 125.44  
+        return value * 3645
     elif 'aana' in land_area:
-        return value * 31.36   
-    elif 'sq. ft' in land_area or 'sqft' in land_area:
+        return value * 342.25 
+    elif 'sq. ft' in land_area or 'sq ft' in land_area or 'sqft' in land_area:
         return value
-    elif 'sq. mtr' in land_area or 'sqm' in land_area:
-        return value * 10.764  
+    elif 'sq. mtr' in land_area or 'sqm' in land_area or 'sq m' in land_area:
+        return value * 10.7639
     else:
-        return value  
+        return value
     
 def process_road_access(x):
     if pd.isna(x):
