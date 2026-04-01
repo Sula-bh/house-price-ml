@@ -105,8 +105,7 @@ def preprocess_data(df):
     clean_location(df)
 
     df["LAND_AREA"] = df["LAND AREA"].apply(convert_to_sqft)
-    df.drop("LAND_AREA",axis=1,inplace=True)
-
+    
     df["ROAD_ACCESS"] = df["ROAD ACCESS"].apply(process_road_access)
 
     clean_facing(df)
@@ -148,5 +147,7 @@ def preprocess_data(df):
     df["bath_per_bed"].fillna(df["bath_per_bed"].median(), inplace=True)
     df["area_road_interaction"] = df["LAND_AREA"] * df["ROAD_ACCESS"]
     df["area_bedroom"] = df["LAND_AREA"] * df["BEDROOM"]
+
+    df.drop("LAND_AREA",axis=1,inplace=True)
 
     return df
